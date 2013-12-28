@@ -1,0 +1,19 @@
+name:                idoor
+version:             0.0.1
+build-type:          Simple
+cabal-version:       >=1.8
+
+executable idoor
+  main-is:             app.hs
+  -- other-modules:       
+  build-depends:     base,
+                     MissingH,
+                     resourcet,
+                     text,
+                     bytestring ==0.10.0.2,
+                     transformers,
+                     scotty,
+                     persistent,
+                     persistent-sqlite,
+                     persistent-template,
+                     monad-logger < 0.3.0
