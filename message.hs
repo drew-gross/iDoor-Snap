@@ -11,7 +11,7 @@
 
 module Message where
 
-import Data.Text (Text)
+import Data.ByteString (ByteString)
 import Control.Monad.Trans.Resource (ResourceT, runResourceT)
 import Control.Monad.Logger (NoLoggingT, runNoLoggingT)
 import Database.Persist
@@ -20,7 +20,7 @@ import Database.Persist.TH (mkPersist, mkMigrate, share, sqlSettings, persistUpp
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistUpperCase|
 Post
-	content Text
+	content ByteString
 |]
 
 runDb :: SqlPersistT (ResourceT (NoLoggingT IO)) a -> IO a

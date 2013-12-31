@@ -1,19 +1,19 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-import Web.Scotty (ScottyM, ActionM, get, post, file, redirect, setHeader, scotty, param, body, html)
+import Web.Scotty (ScottyM, ActionM, get, post, file, redirect, setHeader, scotty, param, body, html, raw)
 import Control.Monad.IO.Class (liftIO)
 import Message
 import Data.Maybe (fromJust)
 import Data.Int (Int64)
 import Data.Text.Encoding (decodeASCII)
-import Data.Text.Lazy (pack, fromStrict)
-import Data.ByteString.Lazy (toStrict)
+import Data.Text.Lazy (pack)
+import Data.ByteString.Lazy (toStrict, fromStrict)
+import Data.ByteString.Char8 (putStrLn)
 import Database.Persist (insert, KeyBackend(Key))
 import Database.Persist.Types (PersistValue(PersistInt64))
 import qualified Database.Persist as DB (get)
 import Database.Persist.Sqlite (runMigration, insert)
-
-import Debug.Trace
+import Prelude hiding (putStrLn)
 
 iDoor :: ScottyM ()
 iDoor = do
@@ -28,11 +28,11 @@ iDoor = do
 				html "Message not found!"
 			Just content -> do
 				setHeader "Content-Type" "image/jpeg"
-				html $ fromStrict $ postContent content
+				raw $ fromStrict $ postContent content
 
 	post "/messages" $ do
 		image <- body
-		liftIO $ runDb $ insert $ Post $ decodeASCII $ toStrict image
+		liftIO $ runDb $ insert $ Post $ toStrict image
 		redirect "/"
 
 messages :: ActionM ()
