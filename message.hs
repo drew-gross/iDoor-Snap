@@ -13,8 +13,9 @@ module Message where
 
 import Data.Text (Text)
 import Control.Monad.Trans.Resource (ResourceT, runResourceT)
+import Control.Monad.Logger (NoLoggingT, runNoLoggingT)
 import Database.Persist
-import Database.Persist.Sqlite (SqlPersist, withSqliteConn, runSqlConn)
+import Database.Persist.Sqlite (SqlPersistT, withSqliteConn, runSqlConn)
 import Database.Persist.TH (mkPersist, mkMigrate, share, sqlSettings, persistUpperCase)
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistUpperCase|
@@ -22,5 +23,8 @@ Post
 	content Text
 |]
 
-runDb :: SqlPersist (ResourceT IO) a -> IO a
-runDb query = runResourceT . withSqliteConn ":memory:" . runSqlConn $ query
+runDb :: SqlPersistT (ResourceT (NoLoggingT IO)) a -> IO a
+runDb query = runNoLoggingT . runResourceT . withSqliteConn "dev.idoor.sqlite3" . runSqlConn $ query
+
+readMessage :: KeyBackend (PersistEntityBackend Post) Post -> IO (Maybe Post)
+readMessage postID = runDb $ get postID

@@ -6,14 +6,13 @@ cabal-version:       >=1.8
 executable idoor
   main-is:             app.hs
   -- other-modules:       
-  build-depends:     base,
-                     MissingH,
-                     resourcet,
-                     text,
-                     bytestring ==0.10.0.2,
-                     transformers,
-                     scotty,
-                     persistent,
-                     persistent-sqlite,
-                     persistent-template,
-                     monad-logger < 0.3.0
+  build-depends:     base ==4.6.0.1,
+                     resourcet ==0.4.10,
+                     text ==1.0.0.0,
+                     bytestring ==0.10.4.0,
+                     transformers ==0.3.0.0,
+                     scotty ==0.6.2,
+                     persistent ==1.3.0,
+                     persistent-sqlite ==1.3.0,
+                     persistent-template ==1.3.0,
+                     monad-logger ==0.3.4.0
