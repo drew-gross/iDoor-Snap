@@ -15,4 +15,6 @@ executable idoor
                      persistent ==1.3.0,
                      persistent-sqlite ==1.3.0,
                      persistent-template ==1.3.0,
-                     monad-logger ==0.3.4.0
+                     monad-logger ==0.3.4.0,
+                     -- Note: requires my modified version of MissingH, or potentially a newer version of MissingH
+                     MissingH ==1.2.0.2
