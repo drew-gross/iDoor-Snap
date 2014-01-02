@@ -17,11 +17,11 @@ import Database.Persist.Sqlite (runMigration, insert)
 import Network.Email.Sendmail (sendmail)
 import Prelude hiding (putStrLn)
 
-emailBodyFromID msgID = "Subject: New message from iDoor!\n" ++
+emailBodyFromID msgID = ("Subject: New message from iDoor!\n" ++
 						"Content-Type: text/html\n" ++
-						"<img src=\"http://drewgross.com:8001/messages/" ++ msgID ++ "\">" ++
+						"<img src=\"http://drewgross.com:8002/messages/" ++ msgID ++ "\">" ++
 						"<br>" ++
-						"<a href=\"http://drewgross.com:8001/messages/" ++ msgID ++ "\">"
+						"<a href=\"http://drewgross.com:8002/messages/" ++ msgID ++ "\">Message</a>\n")
 
 iDoor :: ScottyM ()
 iDoor = do
@@ -45,7 +45,7 @@ iDoor = do
 		let messageBody = case imageID of
 			Left errorMsg -> errorMsg
 			Right imageID -> emailBodyFromID $ unpack imageID
-		liftIO $ sendmail (Just "idoor@idoor.drewgross.com") ["drew.a.gross@gmail.com"] messageBody
+		liftIO $ sendmail Nothing ["drew.a.gross@gmail.com"] messageBody -- this shoud have a from email, but doesn't because of a bug (maybe in sendmail?)
 		redirect "/"
 
 messages :: ActionM ()
@@ -56,4 +56,4 @@ messages = do
 main :: IO ()
 main = do
 	runDb $ runMigration migrateAll
-	scotty 8001 iDoor
+	scotty 8002 iDoor
