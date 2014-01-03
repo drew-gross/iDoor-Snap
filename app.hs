@@ -19,9 +19,9 @@ import Prelude hiding (putStrLn)
 
 emailBodyFromID msgID = ("Subject: New message from iDoor!\n" ++
 						"Content-Type: text/html\n" ++
-						"<img src=\"http://drewgross.com:8002/messages/" ++ msgID ++ "\">" ++
+						"<img src=\"http://idoor.drewgross.com/messages/" ++ msgID ++ "\">" ++
 						"<br>" ++
-						"<a href=\"http://drewgross.com:8002/messages/" ++ msgID ++ "\">Message</a>\n")
+						"<a href=\"http://idoor.drewgross.com/messages/" ++ msgID ++ "\">Message</a>\n")
 
 iDoor :: ScottyM ()
 iDoor = do
